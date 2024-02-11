@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Header from './header';
+import AddContact from './addContact';
+import ContactList from './contactList';
 
 function App() {
+  const LOCAL_STORAGE_KEY = 'contacts';
+  const [contacts, setContacts] = useState([]);
+
+  const contactHandler = (contact) => {
+    setContacts([...contacts, contact]);
+  };
+
+  useEffect(() => {
+    const retrieve = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (retrieve !== null) {
+      setContacts(retrieve);
+    }
+  }, []); // Empty dependency array to run only once during component mount
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(contacts));
+  }, [contacts]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header />
+      <AddContact addContactHandler={contactHandler} />
+      <hr className='' />
+      <ContactList contacts={contacts} />
     </div>
   );
 }
