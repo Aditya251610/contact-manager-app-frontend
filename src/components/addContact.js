@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+//Adding contacts
 const AddContact = ({ addContactHandler, contacts }) => {
   const [state, setState] = useState({
     name: "",
